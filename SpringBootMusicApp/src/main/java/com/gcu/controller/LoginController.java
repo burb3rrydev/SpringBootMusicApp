@@ -14,11 +14,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gcu.model.LoginModel;
 
+/**
+ * Login Controller
+ */
 @Controller
 @RequestMapping("/login")
 public class LoginController
 {
-
+	/**
+	 * Mapping for user login
+	 * @param model Login Model
+	 * @return Login View
+	 */
 	@GetMapping("/")
 	public String display(Model model)
 	{
@@ -26,7 +33,14 @@ public class LoginController
 		model.addAttribute("loginModel", new LoginModel());
 		return "login";
 	}
-
+	
+	/**
+	 * Mapping after user logs in
+	 * @param loginModel uses the LoginModel. it also checks to see if it's valid.
+	 * @param bindingResult checks for errors
+	 * @param model
+	 * @return Main View 
+	 */
 	@PostMapping("/doLogin")
 	public String doLogin(@Valid LoginModel loginModel, BindingResult bindingResult, Model model)
 	{
