@@ -1,0 +1,10 @@
+<!-- registration-form.html -->
+<form action="/register" method="post" th:object="${user}">
+    <label for="firstName">First Name:</label>
+    <input type="text" id="firstName" name="firstName" th:field="*{firstName}" required>
+    <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>
+
+    <!-- Repeat similar blocks for other fields (lastName, email, phoneNumber, username, password) -->
+
+    <input type="submit" value="Register">
+</form>
