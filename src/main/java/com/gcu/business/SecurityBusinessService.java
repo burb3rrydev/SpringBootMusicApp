@@ -13,6 +13,7 @@ public class SecurityBusinessService
 	 */
 	public boolean authenticate(String username, String password)
 	{
+		
 		//checks to see if user is legitimate (testing only - this will always be true)
 		if(username.equals(username) && password.equals(password))
 		{
