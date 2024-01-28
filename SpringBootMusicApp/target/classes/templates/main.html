@@ -7,6 +7,7 @@
     <style>
     	body {
             background-color: #343a40; /* Light Gray background color */
+            color: #FFFFFF; /* White text color */
         }
     
         .navbar-light {
@@ -37,6 +38,16 @@
     <div class="container">
         <center><h1>SpringBoot Music App</h1></center>
         <!-- Additional content goes here -->
+        <!-- Add this section to display the list of music products -->
+<div class="container">
+    <h2>Available Music</h2>
+    <ul>
+        <li th:each="product : ${products}">
+            <span th:text="${product.name}"></span> - <span th:text="${product.artist}"></span>
+            <!-- Add more details as needed -->
+        </li>
+    </ul>
+</div>
     </div>
 
     <!-- Bootstrap JS and dependencies -->
@@ -45,4 +56,3 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>
-

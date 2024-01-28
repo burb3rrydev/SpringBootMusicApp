@@ -1,13 +1,32 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Application Title</title>
+    <title>SB Music</title>
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+    	body {
+            background-color: #343a40; /* Light Gray background color */
+            color: #FFFFFF; /* White text color */
+        }
+    
+        .navbar-light {
+            background-color: #1397FF; /* Light Blue background color */
+        }
+
+        .navbar-light .navbar-nav .nav-link {
+            color: #FFFFFF; /* White text color */
+        }
+        
+        .container h1 {
+            margin-top: 20px; /* Adjust the margin-top as needed for spacing */
+            color: #FFFFFF; /* White text color */
+        }
+    </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="/">Application Logo</a>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="/">SB Music</a>
         <div class="navbar-collapse collapse show" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
@@ -19,6 +38,16 @@
     <div class="container">
         <center><h1>SpringBoot Music App</h1></center>
         <!-- Additional content goes here -->
+        <!-- Add this section to display the list of music products -->
+<div class="container">
+    <h2>Available Music</h2>
+    <ul>
+        <li th:each="product : ${products}">
+            <span th:text="${product.name}"></span> - <span th:text="${product.artist}"></span>
+            <!-- Add more details as needed -->
+        </li>
+    </ul>
+</div>
     </div>
 
     <!-- Bootstrap JS and dependencies -->
@@ -27,4 +56,3 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>
-
