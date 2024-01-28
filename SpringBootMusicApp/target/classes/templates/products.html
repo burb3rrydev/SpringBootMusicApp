@@ -1,0 +1,31 @@
+<!-- products.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Product List</title>
+    <!-- Add your styling or use Bootstrap or other frameworks -->
+</head>
+<body>
+    <h2>Product List</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Artist</th>
+                <th>Genre</th>
+                <!-- Add more columns as needed -->
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="product : ${products}">
+                <td th:text="${product.id}"></td>
+                <td th:text="${product.title}"></td>
+                <td th:text="${product.artist}"></td>
+                <td th:text="${product.genre}"></td>
+                <!-- Add more cells as needed -->
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
