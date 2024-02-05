@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>SB Music</title>
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+    	body {
+            background-color: #343a40; /* Light Gray background color */
+            color: #FFFFFF; /* White text color */
+        }
+    
+        .navbar-light {
+            background-color: #1397FF; /* Light Blue background color */
+        }
+
+        .navbar-light .navbar-nav .nav-link {
+            color: #FFFFFF; /* White text color */
+        }
+        
+        .container h1 {
+            margin-top: 20px; /* Adjust the margin-top as needed for spacing */
+            color: #FFFFFF; /* White text color */
+        }
+    </style>
+</head>
+
+<!-- Similar structure to your existing HTML file -->
+
+<div class="container">
+    <center><h1>Create Music Product</h1></center>
+    <form action="/createProduct" method="post" th:object="${product}" enctype="multipart/form-data">
+        <!-- Form fields for name, artist, audioFile, and picture -->
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" th:field="*{name}" required>
+
+        <label for="artist">Artist:</label>
+        <input type="text" id="artist" name="artist" th:field="*{artist}" required>
+
+        <label for="audioFile">Audio File:</label>
+        <input type="file" id="audioFile" name="audioFile" accept=".mp3, .wav" required>
+
+        <label for="picture">Picture (optional):</label>
+        <input type="file" id="picture" name="picture" accept=".jpg, .jpeg, .png">
+
+        <button type="submit">Create</button>
+    </form>
+</div>
+

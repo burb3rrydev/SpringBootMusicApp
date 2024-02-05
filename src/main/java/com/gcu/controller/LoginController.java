@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.gcu.business.SecurityBusinessService;
 import com.gcu.model.LoginModel;
 
 /**
@@ -23,9 +21,6 @@ import com.gcu.model.LoginModel;
 @RequestMapping("/login")
 public class LoginController
 {
-	@Autowired
-	private SecurityBusinessService security;
-	
 	/**
 	 * Mapping for user login
 	 * @param model Login Model
@@ -56,13 +51,10 @@ public class LoginController
 			return "login";
 		}
 		
-		//authenticates user and if true, the user goes to main menu
-		if(security.authenticate(loginModel.getUsername(), loginModel.getPassword()))
-		{
-			return "main";
-		}
-
-		//Navigates to the Login View
-		return "login";
+		//Prints the form values out in the console
+		System.out.println(String.format("Form with Username of %s and Password of %s", loginModel.getUsername(), loginModel.getPassword()));
+		
+		//Navigates to the Main View
+		return "main";
 	}
 }
