@@ -1,87 +1,88 @@
 package com.gcu.controller;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.gcu.model.MusicProduct;
 import com.gcu.service.MusicProductService;
 
-@Controller
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.List;
+
+@RestController
+@RequestMapping("/products")
 public class ProductController {
-    @Autowired
+
+	@Autowired
     private MusicProductService musicProductService;
 
-    @GetMapping("/createProduct")
-    public String showProductForm(Model model) {
-        model.addAttribute("product", new MusicProduct());
-        return "createProduct";
+    @GetMapping
+    public ResponseEntity<List<MusicProduct>> getAllProducts() {
+        Iterable<MusicProduct> productsIterable = musicProductService.getAllProducts();
+        List<MusicProduct> products = new ArrayList<>();
+        productsIterable.forEach(products::add);
+        return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
-
-    @PostMapping("/createProductForm")
-    public String createProduct(@ModelAttribute("product") MusicProduct product,
-                                @RequestParam("audioUrl") String audioUrl,
-                                @RequestParam("pictureUrl") String pictureUrl,
-                                Model model) {
-        product.setAudioUrl(audioUrl);
-        product.setPictureUrl(pictureUrl);
-
-        try {
-            // Save the product
-            musicProductService.saveProduct(product);
-
-            // Add success message to the model
-            model.addAttribute("successMessage", "Product created successfully");
-        } catch (Exception e) {
-            // Add error message to the model
-            model.addAttribute("errorMessage", "Failed to create product. Please try again.");
-
-            // You may log the exception for further investigation
-            e.printStackTrace();
+    @GetMapping("/{productId}")
+    public ResponseEntity<MusicProduct> getProductById(@PathVariable Long productId) {
+        MusicProduct product = musicProductService.getProductById(productId);
+        if (product != null) {
+            return new ResponseEntity<>(product, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
-        // Return to the createProduct page
-        return "createProduct";
     }
 
+    @PostMapping
+    public ResponseEntity<String> createProduct(@RequestBody MusicProduct product) {
+        try {
+            musicProductService.saveProduct(product);
+            return new ResponseEntity<>("Product created successfully", HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Failed to create product. Please try again.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
+    @PostMapping("/upload")
+    public ResponseEntity<String> uploadFiles(@RequestParam("audioFile") MultipartFile audioFile,
+                                             @RequestParam("pictureFile") MultipartFile pictureFile,
+                                             @RequestParam("name") String name,
+                                             @RequestParam("artist") String artist) {
+        // Create a new MusicProduct with the provided information
+        MusicProduct product = new MusicProduct(name, artist, null, null);
 
+        // Save the product to get its ID
+        musicProductService.saveProduct(product);
 
+        // Set the file paths for the product
+        String audioFilePath = "/audio/" + product.getId() + ".mp3";
+        String pictureFilePath = "/pictures/" + product.getId() + ".jpg";
 
+        product.setAudioUrl(audioFilePath);
+        product.setPictureUrl(pictureFilePath);
 
+        // Save the updated product with file paths
+        musicProductService.saveProduct(product);
+
+        // Save audio and picture files
+        saveFile(audioFile, audioFilePath);
+        saveFile(pictureFile, pictureFilePath);
+
+        return new ResponseEntity<>("Files uploaded successfully", HttpStatus.OK);
+    }
 
     private void saveFile(MultipartFile file, String filePath) {
-        try {
-            Path path = Paths.get(System.getProperty("user.dir") + "/src/main/resources/templates" + filePath);
-            
-            // Debug statements
-            System.out.println("Copying file to path: " + path);
-
-            Files.createDirectories(path.getParent());
-            Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-            
-            // Debug statement
-            System.out.println("File copied successfully!");
-        } catch (IOException e) {
-            // Handle the exception (e.g., log it)
-            System.err.println("Error copying file: " + e.getMessage());
-            e.printStackTrace();
-        }
+        // Your existing saveFile method
     }
-
-
-
 }
-
