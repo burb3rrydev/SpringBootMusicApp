@@ -35,7 +35,7 @@ public class UserBusinessService implements UserDetailsService
 		{
 			List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 			authorities.add(new SimpleGrantedAuthority("USER"));
-			System.out.println("user info" + user.getUsername() + user.getPassword());
+			System.out.println("username (" + user.getUsername() +") password ("+  user.getPassword() + ")");
 			return new User(user.getUsername(), user.getPassword(), authorities);
 		}
 		else

@@ -1,16 +1,21 @@
 package com.gcu.data.entity;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
-@Document(collection="users")
+@Entity
+@Table(name="users")
 public class UserEntity
 {
 	@Id
 	String id;
-	@Indexed(unique=true)
+	
+	@Column(name="username")
 	String username;
+	
+	@Column(name="password")
 	String password;
 	
 	public UserEntity()
