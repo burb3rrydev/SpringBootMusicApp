@@ -2,11 +2,54 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layouts/defaultTemplate">
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>SB Music Login</title>
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #343a40; /* Light Gray background color */
+        }
+
+        .navbar-light {
+            background-color: #1397FF; /* Light Blue background color */
+        }
+
+        .navbar-light .navbar-nav .nav-link {
+            color: #FFFFFF; /* White text color */
+        }
+
+        .container h1 {
+            margin-top: 20px; /* Adjust the margin-top as needed for spacing */
+            color: #FFFFFF; /* White text color */
+        }
+
+        .product-container {
+            margin-top: 20px;
+        }
+
+        .product-card {
+            width: 200px;
+            margin: 10px;
+        }
+
+        .product-image {
+            width: 200px;
+            height: 200px;
+        }
+    </style>
 </head>
 <body>
 	<div layout:fragment="content">
-<h2>testing login</h2>
+<h2>SpringBoot Music App Login</h2>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="/">SB Music</a>
+        <div class="navbar-collapse collapse show" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+                <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
+            </ul>
+        </div>
+    </nav>
 
 <div th:if="${param.error}">
 	Invalid User Name or Password
